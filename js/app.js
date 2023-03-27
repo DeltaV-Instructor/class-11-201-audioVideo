@@ -61,3 +61,4 @@ console.log('pizza js connected.');
 
 */
 //global variables
+let pizzaContainer = document.querySelector('section');
