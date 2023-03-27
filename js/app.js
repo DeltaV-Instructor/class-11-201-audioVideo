@@ -62,3 +62,15 @@ console.log('pizza js connected.');
 */
 //global variables
 let pizzaContainer = document.querySelector('section');
+let resultButton = document.querySelector('section + div');
+let image1 = document.querySelector('section img:first-child');
+let image2 = document.querySelector('section img:nth-child(2)');
+console.log(pizzaContainer, resultButton, image1, image2);
+//track out click counts for the rounds
+let clicks = 0;
+let maxClicks = 10;
+Pizza.allPizzasArray = [];
+
+
+
+
