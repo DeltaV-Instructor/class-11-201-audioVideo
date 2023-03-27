@@ -61,3 +61,65 @@ console.log('pizza js connected.');
 
 */
 //global variables
+let pizzaContainer = document.querySelector('section');
+let resultButton = document.querySelector('section + div');
+let image1 = document.querySelector('section img:first-child');
+let image2 = document.querySelector('section img:nth-child(2)');
+console.log(pizzaContainer, resultButton, image1, image2);
+//track out click counts for the rounds
+let clicks = 0;
+let maxClicks = 10;
+Pizza.allPizzasArray = [];
+
+
+
+//create a constructor function to build our image objects.
+function Pizza(name, src){
+  this.name = name;
+  this.src = src;
+  //amount shown
+  this.views = 0;
+  //tracking individual image clicks
+  this.click = 0;
+  //   As we create new instances of our pizza objects we can push those into array using the 'this' and the .push()
+  // built in array method
+  Pizza.allPizzasArray.push(this);
+}
+console.log('Pizzas? ',Pizza.allPizzasArray);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+new Pizza('Brick Oven Pizza', 'assets/images/brickOvenPizza.jpg');
+new Pizza('Calzone', 'assets/images/calzonePizza.jpg');
+new Pizza('Chicago Deep Dish', 'assets/images/chicagoPizza.jpg');
+new Pizza('Chicago Pizza and Oven Grinder', 'assets/images/cpoGinderPizza.jpg');
+new Pizza('Detroit Style', 'assets/images/detroitPizza.jpg');
+new Pizza('Papa Vito\'s Thin', 'assets/images/mwDeluxePizzaThinCrust.jpg');
+new Pizza('New York Thin', 'assets/images/newYorkPizza.jpg');
+new Pizza('Shot Gun Dans Pizza', 'assets/images/sgDansHtossedMeatLovPizza.jpg');
