@@ -53,8 +53,10 @@ function handlePizzaClick(event) {
     pizzaContainer.removeEventListener('click', handlePizzaClick);
     resultButton.addEventListener('click', renderResults);
     pizzaContainer.className = 'no-voting';
+    renderChart();
   } else {
     renderPizzas();
+
   }
 } //closes the handle clicks function
 
@@ -65,7 +67,13 @@ function renderResults() {
     li.textContent = `${Pizza.allPizzasArray[i].name} had ${Pizza.allPizzasArray[i].views} views and was clicked ${Pizza.allPizzasArray[i].clickedOn} times.`;
     ul.appendChild(li);
   }
+
 }
+
+/* refer to Chart.js > Chart Types > Bar Chart:
+  https://www.chartjs.org/docs/latest/charts/bar.html
+  and refer to Chart.js > Getting Started > Getting Started:
+  https://www.chartjs.org/docs/latest/getting-started/ */
 
 new Pizza('Brick Oven Pizza', 'assets/images/brickOvenPizza.jpg');
 new Pizza('Calzone', 'assets/images/calzonePizza.jpg');
@@ -80,3 +88,116 @@ renderPizzas();
 
 //add listener
 pizzaContainer.addEventListener('click', handlePizzaClick);
+
+function renderChart() {
+  console.log(Pizza.allPizzasArray);
+  //lets look the names, like, total views
+  let pizzaNames = [];
+  let pizzaLikes = [];
+  let pizzaViews = [];
+
+  for (let i = 0; i < Pizza.allPizzasArray.length; i++) {
+    pizzaNames.push(Pizza.allPizzasArray[i].name);
+    pizzaLikes.push(Pizza.allPizzasArray[i].clickedOn);
+    pizzaViews.push(Pizza.allPizzasArray[i].views);
+  }
+  console.log(pizzaNames, pizzaLikes, pizzaViews);
+
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+
+    data: {
+      labels: pizzaNames,
+      datasets: [
+        {
+          label: 'Vote Counts',
+          backgroundColor: 'rgb(200,0,0)',
+          data: pizzaLikes,
+          borderWidth: 5,
+        },
+        {
+          label: 'Shown Count',
+          backgroundColor: 'rgb(20,44,222)',
+          data: pizzaViews,
+          borderWidth: 5,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
+
+
+/**
+function renderChart(){
+  console.log(Pizza.allPizzasArray);
+  let pizzaNames = [];
+  let pizzaLikes = [];
+  let pizzaViews = [];
+
+  for(let i = 0; i < Pizza.allPizzasArray.length; i++){
+    pizzaNames.push(Pizza.allPizzasArray[i].name);
+    // pizzaNames.push(Pizza.allPizzasArray[i].name);
+    pizzaLikes.push(Pizza.allPizzasArray[i].clickedOn);
+    pizzaViews.push(Pizza.allPizzasArray[i].views);
+  }
+
+
+
+  const data = {
+    labels: pizzaNames,
+    datasets: [
+      {
+        label: 'Likes',
+        data: pizzaLikes,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.3)',
+          'rgba(255, 206, 86, 0.9)',
+          'rgba(75, 192, 192, 0.7)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(5, 159, 64, 0.8)',
+          'rgba(5, 159, 64, 0.5)',
+          'rgba(5, 159, 64, 0.3)'
+        ],
+        borderColor: [
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      },
+      {
+        label: 'Views',
+        data: pizzaViews,
+        backgroundColor: ['rgba(255, 9, 64, 0.3)'],
+        borderColor: ['rgba(255, 9, 64, 0.9)'],
+        borderWidth: 1
+      }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+    //go grab the canvas element from the html
+  const canvasChart = document.getElementById('myChart').getContext('2d');
+  // eslint-disable-next-line no-undef
+  new Chart(canvasChart, config);
+}
+
+ */
