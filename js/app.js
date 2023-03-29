@@ -9,13 +9,70 @@ let clicks = 0;
 let maxClicks = 10;
 Pizza.allPizzasArray = [];
 
-function Pizza(name, src) {
+function Pizza(name, src, views, clickedOn) {
   this.name = name;
   this.imageSrc = src;
-  this.views = 0;
-  this.clickedOn = 0;
+
+  // this.views = 0;
+  if(views){
+    this.views = views;
+  } else {
+    this.views = 0;
+  }
+  // this.clickedOn = 0;
+  if(clickedOn){
+    this.clickedOn = clickedOn;
+  } else {
+    this.clickedOn = 0;
+  }
+
+
   Pizza.allPizzasArray.push(this);
 }
+
+
+
+//get Json out of local storage
+//if we have local storage then 1. parse back into objects
+//2. run them though our constructor function
+//3. else check to see if no local storage then run the regular new calls to our constructor functions
+let savedPizzaString = localStorage.getItem('savedPizza');
+console.log('local storage?',savedPizzaString);
+
+
+if(savedPizzaString){
+  let arrayOfNotPizzaObject = JSON.parse(savedPizzaString);
+  console.log('🚀 ~ file: app.js:32 ~ arrayOfNotPizzaObject:', arrayOfNotPizzaObject);
+  //once we have object we are going to run them through our constructor function so that they are Pizza objects.
+  for(let j = 0; j < arrayOfNotPizzaObject.length; j++){
+    new Pizza(
+      this.name = arrayOfNotPizzaObject[j].name,
+      this.imageSrc = arrayOfNotPizzaObject[j].imageSrc,
+      this.views = arrayOfNotPizzaObject[j].views,
+      this.clickedOn = arrayOfNotPizzaObject[j].clickedOn
+    );
+  }
+} else {
+  // first time through these create our objects so that we can add data. 
+  new Pizza('Brick Oven Pizza', 'assets/images/brickOvenPizza.jpg');
+  new Pizza('Calzone', 'assets/images/calzonePizza.jpg');
+  new Pizza('Chicago Deep Dish', 'assets/images/chicagoPizza.jpg');
+  new Pizza('Chicago Pizza and Oven Grinder', 'assets/images/cpoGinderPizza.jpg');
+  new Pizza('Detroit Style', 'assets/images/detroitPizza.jpg');
+  new Pizza('Papa Vito\'s Thin', 'assets/images/mwDeluxePizzaThinCrust.jpg');
+  new Pizza('New York Thin', 'assets/images/newYorkPizza.jpg');
+  new Pizza('Shot Gun Dans Pizza', 'assets/images/sgDansHtossedMeatLovPizza.jpg');
+}
+
+
+
+
+
+
+
+
+
+
 
 function getRandomNumber() {
   return Math.floor(Math.random() * Pizza.allPizzasArray.length);
@@ -49,10 +106,13 @@ function handlePizzaClick(event) {
       break;
     }
   }
+  //clicking is done and our objects now have data.
   if (clicks === maxClicks) {
     pizzaContainer.removeEventListener('click', handlePizzaClick);
     resultButton.addEventListener('click', renderResults);
     pizzaContainer.className = 'no-voting';
+    // localStorage.setItem(key, make the value a string using the stringify());
+    localStorage.setItem('savedPizza', JSON.stringify(Pizza.allPizzasArray));
     renderChart();
   } else {
     renderPizzas();
@@ -75,14 +135,7 @@ function renderResults() {
   and refer to Chart.js > Getting Started > Getting Started:
   https://www.chartjs.org/docs/latest/getting-started/ */
 
-new Pizza('Brick Oven Pizza', 'assets/images/brickOvenPizza.jpg');
-new Pizza('Calzone', 'assets/images/calzonePizza.jpg');
-new Pizza('Chicago Deep Dish', 'assets/images/chicagoPizza.jpg');
-new Pizza('Chicago Pizza and Oven Grinder', 'assets/images/cpoGinderPizza.jpg');
-new Pizza('Detroit Style', 'assets/images/detroitPizza.jpg');
-new Pizza('Papa Vito\'s Thin', 'assets/images/mwDeluxePizzaThinCrust.jpg');
-new Pizza('New York Thin', 'assets/images/newYorkPizza.jpg');
-new Pizza('Shot Gun Dans Pizza', 'assets/images/sgDansHtossedMeatLovPizza.jpg');
+
 
 renderPizzas();
 
